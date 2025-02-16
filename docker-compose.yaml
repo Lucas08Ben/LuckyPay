@@ -1,0 +1,40 @@
+networks:
+  luckypay:
+    name: luckypay
+    driver: bridge
+
+volumes:
+  db-luckypay:
+    name: luckypay-volume
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: luckypay-database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-luckypay:/var/lib/postgresql/data
+    networks:
+      - luckypay
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: dev1234
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: dev1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - luckypay
+    command: ["start-dev"]
