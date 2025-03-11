@@ -1,0 +1,21 @@
+[project]
+name = "luckypay"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.8",
+    "pydantic-settings>=2.7.1",
+    "pydantic[email]>=2.10.6",
+    "python-dotenv>=1.0.1",
+    "python-keycloak>=5.3.1",
+    "sqlmodel>=0.0.22",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "alembic>=1.14.1",
+    "psycopg2-binary>=2.9.10",
+    "ruff>=0.9.6",
+]
