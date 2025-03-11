@@ -19,3 +19,13 @@ class ParticipantBody(SQLModel):
 
     cpf: str
     phone: str
+
+class CreateParticipantBody(SQLModel):
+    __tablename__ = "participant"
+
+    cpf: str
+    phone: str
+    email: str
+    first_name: str
+    last_name: str
+    password: str

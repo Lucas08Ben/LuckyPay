@@ -57,6 +57,9 @@ async def finish_registration(
         userinfo = keycloak_openid.userinfo(token.credentials)
     except KeycloakAuthenticationError:
         raise credentials_exception
+    
+    if "registration_completed" in userinfo.keys() and userinfo["registration_completed"] == 'true':
+        raise HTTPException(401, "Already finished!")
 
     changes = {
         "email": userinfo["email"],
@@ -66,6 +69,7 @@ async def finish_registration(
     }
 
     keycloak_admin.update_user(user_id=userinfo["sub"], payload=changes)
+    # keycloak_admin.create_user()
 
     return userinfo
 
@@ -81,6 +85,6 @@ async def get_current_user(
     userinfo["roles"] = []
     if "luckypay" in userinfo["resource_access"].keys(): 
         userinfo["roles"] = userinfo["resource_access"]["luckypay"]["roles"]
-    if not userinfo["registration_completed"]:
+    if "registration_completed" not in userinfo.keys():
         raise HTTPException(403, "You need to finish your registration before!")
     return userinfo

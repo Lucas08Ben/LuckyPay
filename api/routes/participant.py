@@ -3,7 +3,7 @@ from typing import Annotated
 from sqlmodel import Session
 
 
-from api.models.participant import ParticipantBody
+from api.models.participant import ParticipantBody, CreateParticipantBody
 
 from api.database.connection import get_db
 from api.configuration.security import finish_registration, get_current_user
@@ -14,12 +14,22 @@ router = APIRouter()
 
 @router.post("", status_code=201)
 def finish_registration(
-    raffle: ParticipantBody,
+    participantBody: ParticipantBody,
     db: Annotated[Session, Depends(get_db)],
     user_info: Annotated[any, Depends(finish_registration)],
 ):
     new_participant = participant_repo.finish_participant_registration(
-        db, raffle, user_info
+        db, participantBody, user_info
+    )
+    return {"message": "SUCESS_FINISH_REGISTRATION", "data": new_participant}
+
+@router.post("create", status_code=201)
+def create_participant(
+    participant_body: CreateParticipantBody,
+    db: Annotated[Session, Depends(get_db)]
+):
+    new_participant = participant_repo.create_participant(
+        db, participant_body
     )
     return {"message": "SUCESS_FINISH_REGISTRATION", "data": new_participant}
 

@@ -38,3 +38,22 @@ services:
     networks:
       - luckypay
     command: ["start-dev"]
+
+# ---
+# services:
+#   keycloak:
+#     image: quay.io/keycloak/keycloak:latest
+#     container_name: keycloak
+#     environment:
+#       KC_DB: postgres
+#       KC_DB_URL: jdbc:postgresql://liberty-db-dev.cgjingdtelb7.sa-east-1.rds.amazonaws.com:5432/keycloak?schema=public
+#       KC_DB_USERNAME: libertyAdm
+#       KC_DB_PASSWORD: XIRtWU0a95Q1ue27ntMnYWGiBz0ZaR885o4yfRtzfNk7KEdWw2
+#       KC_BOOTSTRAP_ADMIN_USERNAME: admin
+#       KC_BOOTSTRAP_ADMIN_PASSWORD: dev1234
+#       KC_HOSTNAME=auth.seudominio.com
+#       KC_HOSTNAME_STRICT=false
+#       KC_HOSTNAME_STRICT_HTTPS=false
+#     ports:
+#       - "8090:8080"
+#     command: ["start-dev", "--proxy-headers", "xforwarded"]
